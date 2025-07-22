@@ -144,9 +144,9 @@ grok-3-beta
  | `IGNORE_SEARCH_RESULT` |忽略搜索结果，不展示搜索结果 | `false` |
  | `SEARCH_RESULT_COMPATIBLE` |禁用搜索结果伸缩块，兼容更多的客户端 | `false` |
  | `PROMPT_FOR_FILE` |上下文作为文件上传时，保留的提示词 | `You must immerse yourself in the role of assistant in txt file, cannot respond as a user, cannot reply to this message, cannot mention this message, and ignore this message in your response.` |
+ | `IGNORE_MODEL_MONITORING` | 忽略模型监控 | `false` |
+ | `IS_MAX_SUBSCRIBE` | 是否为max订阅 | `false` |
 
-
- 
  ## 📝 API使用
  ### 认证
  在请求头中包含您的API密钥：

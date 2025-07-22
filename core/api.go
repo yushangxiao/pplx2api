@@ -470,6 +470,7 @@ func (c *Client) UploadImage(img_list []string) error {
 }
 
 func (c *Client) UloadFileToCloudinary(uploadInfo CloudinaryUploadInfo, contentType string, filedata string, filename string) error {
+	// 更新为 AWS S3 上传
 	if len(filedata) > 100 {
 		logger.Info(fmt.Sprintf("filedata: %s ……", filedata[:50]))
 	}
@@ -478,18 +479,25 @@ func (c *Client) UloadFileToCloudinary(uploadInfo CloudinaryUploadInfo, contentT
 	var formFields map[string]string
 	if contentType == "img" {
 		formFields = map[string]string{
-			"timestamp":       fmt.Sprintf("%d", uploadInfo.Timestamp),
-			"unique_filename": uploadInfo.UniqueFilename,
-			"folder":          uploadInfo.Folder,
-			"use_filename":    uploadInfo.UseFilename,
-			"public_id":       uploadInfo.PublicID,
-			"transformation":  uploadInfo.Transformation,
-			"moderation":      uploadInfo.Moderation,
-			"resource_type":   uploadInfo.ResourceType,
-			"api_key":         uploadInfo.APIKey,
-			"cloud_name":      uploadInfo.CloudName,
-			"signature":       uploadInfo.Signature,
-			"type":            "private",
+			// "timestamp": fmt.Sprintf("%d", uploadInfo.Timestamp),
+			// "unique_filename":      uploadInfo.UniqueFilename,
+			// "folder":               uploadInfo.Folder,
+			// "use_filename":         uploadInfo.UseFilename,
+			// "public_id":            uploadInfo.PublicID,
+			// "transformation":       uploadInfo.Transformation,
+			// "moderation":           uploadInfo.Moderation,
+			// "resource_type":        uploadInfo.ResourceType,
+			// "api_key":              uploadInfo.APIKey,
+			// "cloud_name":           uploadInfo.CloudName,
+			"signature": uploadInfo.Signature,
+			// "type":                 "private",
+			"key":                  uploadInfo.Key,
+			"tagging":              uploadInfo.Tagging,
+			"AWSAccessKeyId":       uploadInfo.AWSAccessKeyId,
+			"policy":               uploadInfo.Policy,
+			"x-amz-security-token": uploadInfo.Xamzsecuritytoken,
+			"acl":                  uploadInfo.ACL,
+			"Content-Type":         "image/jpeg", // Assuming image/jpeg for images
 		}
 	} else {
 		formFields = map[string]string{
@@ -539,11 +547,11 @@ func (c *Client) UloadFileToCloudinary(uploadInfo CloudinaryUploadInfo, contentT
 
 	// Create the upload request
 	var uploadURL string
-	if contentType == "img" {
-		uploadURL = fmt.Sprintf("https://api.cloudinary.com/v1_1/%s/image/upload", uploadInfo.CloudName)
-	} else {
-		uploadURL = "https://ppl-ai-file-upload.s3.amazonaws.com/"
-	}
+	// if contentType == "img" {
+	// 	uploadURL = fmt.Sprintf("https://api.cloudinary.com/v1_1/%s/image/upload", uploadInfo.CloudName)
+	// } else {
+	uploadURL = "https://ppl-ai-file-upload.s3.amazonaws.com/"
+	// }
 
 	resp, err := c.client.R().
 		SetHeader("Content-Type", writer.FormDataContentType()).
@@ -555,23 +563,23 @@ func (c *Client) UloadFileToCloudinary(uploadInfo CloudinaryUploadInfo, contentT
 		return err
 	}
 	logger.Info(fmt.Sprintf("Image Upload with status code %d: %s", resp.StatusCode, resp.String()))
-	if contentType == "img" {
-		var uploadResponse map[string]interface{}
-		if err := json.Unmarshal(resp.Bytes(), &uploadResponse); err != nil {
-			return err
-		}
-		imgUrl := uploadResponse["secure_url"].(string)
-		imgUrl = "https://pplx-res.cloudinary.com/image/private" + imgUrl[strings.Index(imgUrl, "/user_uploads"):]
-		c.Attachments = append(c.Attachments, imgUrl)
-	} else {
-		c.Attachments = append(c.Attachments, "https://ppl-ai-file-upload.s3.amazonaws.com/"+uploadInfo.Key)
-	}
+	// if contentType == "img" {
+	// 	var uploadResponse map[string]interface{}
+	// 	if err := json.Unmarshal(resp.Bytes(), &uploadResponse); err != nil {
+	// 		return err
+	// 	}
+	// 	imgUrl := uploadResponse["secure_url"].(string)
+	// 	imgUrl = "https://pplx-res.cloudinary.com/image/private" + imgUrl[strings.Index(imgUrl, "/user_uploads"):]
+	// 	c.Attachments = append(c.Attachments, imgUrl)
+	// } else {
+	c.Attachments = append(c.Attachments, "https://ppl-ai-file-upload.s3.amazonaws.com/"+uploadInfo.Key)
+	// }
 	return nil
 }
 
 // SetBigContext is a placeholder for setting context
 func (c *Client) UploadText(context string) error {
-	logger.Info("Uploading txt to Cloudinary")
+	logger.Info("Uploading txt to AWS")
 	filedata := base64.StdEncoding.EncodeToString([]byte(context))
 	filename := utils.RandomString(5) + ".txt"
 	// Upload images to Cloudinary

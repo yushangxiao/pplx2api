@@ -36,6 +36,7 @@ type Config struct {
 	RwMutex                sync.RWMutex
 	IgnoreSerchResult      bool
 	IgnoreModelMonitoring  bool
+	IsMaxSubscribe         bool
 }
 
 // 解析 SESSION 格式的环境变量
@@ -109,6 +110,8 @@ func LoadConfig() *Config {
 		IgnoreModelMonitoring: os.Getenv("IGNORE_MODEL_MONITORING") == "true",
 		// 读写锁
 		RwMutex: sync.RWMutex{},
+		// 是否max订阅
+		IsMaxSubscribe: os.Getenv("IS_MAX_SUBSCRIBE") == "true",
 	}
 
 	// 如果地址为空，使用默认值
@@ -153,4 +156,5 @@ func init() {
 	logger.Info(fmt.Sprintf("PromptForFile: %s", ConfigInstance.PromptForFile))
 	logger.Info(fmt.Sprintf("IgnoreSerchResult: %t", ConfigInstance.IgnoreSerchResult))
 	logger.Info(fmt.Sprintf("IgnoreModelMonitoring: %t", ConfigInstance.IgnoreModelMonitoring))
+	logger.Info(fmt.Sprintf("IsMaxSubscribe: %t", ConfigInstance.IsMaxSubscribe))
 }

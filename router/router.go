@@ -17,14 +17,14 @@ func SetupRoutes(r *gin.Engine) {
 
 	// Chat completions endpoint (OpenAI-compatible)
 	r.POST("/v1/chat/completions", service.ChatCompletionsHandler)
-	r.GET("/v1/models", service.MoudlesHandler)
+	r.GET("/v1/models", service.ModelsHandler)
 	// HuggingFace compatible routes
 	hfRouter := r.Group("/hf")
 	{
 		v1Router := hfRouter.Group("/v1")
 		{
 			v1Router.POST("/chat/completions", service.ChatCompletionsHandler)
-			v1Router.GET("/models", service.MoudlesHandler)
+			v1Router.GET("/models", service.ModelsHandler)
 		}
 	}
 }

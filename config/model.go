@@ -15,6 +15,10 @@ var ModelMap = map[string]string{
 	"o3":                    "o3",
 	"o3-pro":                "o3pro",
 }
+var MaxModelMap = map[string]string{
+	"o3-pro":                "o3pro",
+	"claude-4.0-opus-think": "claude40opusthinking",
+}
 
 // Get returns the value for the given key from the ModelMap.
 // If the key doesn't exist, it returns the provided default value.
@@ -34,17 +38,36 @@ func ModelReverseMapGet(key string, defaultValue string) string {
 	return defaultValue
 }
 
-var ResponseModles []map[string]string
+var ResponseModels []map[string]string
 
 func init() {
+	// 构建反向映射
 	for k, v := range ModelMap {
 		ModelReverseMap[v] = k
-		model := map[string]string{
-			"id": k,
+	}
+	buildResponseModels()
+}
+
+// buildResponseModels 构建响应模型列表
+func buildResponseModels() {
+	ResponseModels = make([]map[string]string, 0, len(ModelMap)*2)
+
+	for modelID := range ModelMap {
+		// 如果不是最大订阅用户，跳过最大模型
+		if !ConfigInstance.IsMaxSubscribe {
+			if _, isMaxModel := MaxModelMap[modelID]; isMaxModel {
+				continue
+			}
 		}
-		modelSearch := map[string]string{
-			"id": k + "-search",
-		}
-		ResponseModles = append(ResponseModles, model, modelSearch)
+
+		// 添加普通模型
+		ResponseModels = append(ResponseModels, map[string]string{
+			"id": modelID,
+		})
+
+		// 添加搜索模型
+		ResponseModels = append(ResponseModels, map[string]string{
+			"id": modelID + "-search",
+		})
 	}
 }

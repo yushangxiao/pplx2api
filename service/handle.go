@@ -163,8 +163,8 @@ func ChatCompletionsHandler(c *gin.Context) {
 		Error: "Failed to process request after multiple attempts"})
 }
 
-func MoudlesHandler(c *gin.Context) {
+func ModelsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"data": config.ResponseModles,
+		"data": config.ResponseModels,
 	})
 }
