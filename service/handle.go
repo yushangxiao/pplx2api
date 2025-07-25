@@ -106,8 +106,8 @@ func ChatCompletionsHandler(c *gin.Context) {
 			}
 		}
 	}
-	fmt.Println(prompt.String())                             // 输出最终构造的内容
-	fmt.Println("img_data_list_length:", len(img_data_list)) // 输出图片数据列表长度
+	// fmt.Println(prompt.String())                             // 输出最终构造的内容
+	// fmt.Println("img_data_list_length:", len(img_data_list)) // 输出图片数据列表长度
 	var rootPrompt strings.Builder
 	rootPrompt.WriteString(prompt.String())
 	// 切号重试机制
