@@ -136,6 +136,10 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 	// 加载环境变量
 	_ = godotenv.Load()
+	
+	// 初始化日志配置
+	logger.Init()
+	
 	Sr = &SessionRagen{
 		Index: 0,
 		Mutex: sync.Mutex{},
