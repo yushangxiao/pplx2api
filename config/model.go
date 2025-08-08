@@ -14,6 +14,7 @@ var ModelMap = map[string]string{
 	"claude-4.0-opus-think": "claude40opusthinking",
 	"o3":                    "o3",
 	"o3-pro":                "o3pro",
+	"gpt-5":                 "gpt5",
 }
 var MaxModelMap = map[string]string{
 	"o3-pro":                "o3pro",
