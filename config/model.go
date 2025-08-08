@@ -9,7 +9,7 @@ var ModelMap = map[string]string{
 	"gpt-4o":                  "gpt4o",
 	"gemini-2.5-pro-06-05":    "gemini2flash",
 	"grok4":                   "grok4",
-	"gpt-4.1":                 "gpt41",
+	"gpt-5":                   "gpt5",
 	// "claude-4.0-opus":         "claude40opus",
 	"claude-4.0-opus-think": "claude40opusthinking",
 	"o3":                    "o3",
