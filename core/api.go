@@ -114,8 +114,8 @@ type ImageModeBlock struct {
 
 // NewClient creates a new Perplexity API client
 func NewClient(sessionToken string, proxy string, model string, openSerch bool) *Client {
-	client := req.C().ImpersonateChrome().SetTimeout(time.Minute * 10)
-	client.Transport.SetResponseHeaderTimeout(time.Second * 10)
+	client := req.C().ImpersonateChrome().SetTimeout(config.GetRenderOptimizedTimeout())
+	client.Transport.SetResponseHeaderTimeout(time.Second * 30)
 	if proxy != "" {
 		client.SetProxyURL(proxy)
 	}
@@ -244,8 +244,9 @@ func (c *Client) HandleResponse(body io.ReadCloser, stream bool, gc *gin.Context
 	}
 	scanner := bufio.NewScanner(body)
 	clientDone := gc.Request.Context().Done()
-	// 增大缓冲区大小
-	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
+	// 设置Render环境优化的缓冲区大小
+	initialBufSize, maxBufSize := config.GetRenderOptimizedBufferSize()
+	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	full_text := ""
 	inThinking := false
 	thinkShown := false
