@@ -546,11 +546,11 @@ func (c *Client) UloadFileToCloudinary(uploadInfo CloudinaryUploadInfo, contentT
 	}
 
 	// Create the upload request
-	var uploadURL string
+	// var uploadURL string
 	// if contentType == "img" {
 	// 	uploadURL = fmt.Sprintf("https://api.cloudinary.com/v1_1/%s/image/upload", uploadInfo.CloudName)
 	// } else {
-	uploadURL = "https://ppl-ai-file-upload.s3.amazonaws.com/"
+	var uploadURL = "https://ppl-ai-file-upload.s3.amazonaws.com/"
 	// }
 
 	resp, err := c.client.R().
