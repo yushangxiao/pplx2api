@@ -4,11 +4,14 @@ var ModelReverseMap = map[string]string{}
 var ModelMap = map[string]string{
 	"claude-4-5-sonnet":       "claude45sonnet",
 	"claude-4.5-sonnet-think": "claude45sonnetthinking",
-	"gemini-2.5-pro-06-05":    "gemini2flash",
+	"gemini-2.5-pro":          "gemini25pro",
 	"o3-pro":                  "o3pro",
-	"gpt-5":                   "gpt5",
-	"gpt-5-think":             "gpt5_thinking",
+	"gpt-5.1":                 "gpt51",
+	"gpt-5.1-think":           "gpt51_thinking",
 	"claude-4.1-opus-think":   "claude41opusthinking",
+	"grok-4":                  "grok4nonthinking",
+	"grok-4-think":            "grok4",
+	"kimi-k2-thinking":        "kimik2thinking",
 }
 var MaxModelMap = map[string]string{
 	"o3-pro":                "o3pro",
