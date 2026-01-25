@@ -53,14 +53,21 @@ func ChatCompletionsHandler(c *gin.Context) {
 	// Get model or use default
 	model := req.Model
 	if model == "" {
-		model = "claude-3.7-sonnet"
+		// 修改这里：改成一个你确定存在的模型，比如 sonar
+		model = "sonar"
 	}
+
+	// 处理 -search 后缀逻辑保持不变
 	openSearch := false
 	if strings.HasSuffix(model, "-search") {
 		openSearch = true
 		model = strings.TrimSuffix(model, "-search")
 	}
-	model = config.ModelMapGet(model, model) // 获取模型名称
+
+	// 确保映射获取逻辑正确
+	if mappedModel := config.ModelMapGet(model, ""); mappedModel != "" {
+		model = mappedModel
+	}
 	var prompt strings.Builder
 	img_data_list := []string{}
 	// Format messages into a single prompt

@@ -1,27 +1,21 @@
-# Start from the official Golang image  
-FROM golang:1.23-alpine AS build  
+# Stage 1: Build
+FROM golang:1.23-alpine AS build
+LABEL "language"="docker"
+WORKDIR /app
+COPY go.mod go.sum* ./
+RUN go mod download
+COPY . .
+# Add -ldflags="-s -w" to reduce binary size
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main ./main.go
 
-# Set working directory  
-WORKDIR /app  
+# Stage 2: Final
+FROM alpine:latest
+# Install necessary certificates and timezone data for HTTPS and correct time
+RUN apk add --no-cache ca-certificates tzdata
+WORKDIR /app
+COPY --from=build /app/main .
 
-# Copy go.mod and go.sum files first for better caching  
-COPY go.mod go.sum* ./  
+# Expose port (good practice)
+EXPOSE 8080
 
-# Download dependencies  
-RUN go mod download  
-
-# Copy the source code  
-COPY . .  
-
-# Build the application  
-RUN CGO_ENABLED=0 GOOS=linux go build -o main ./main.go  
-
-# Create a minimal production image  
-FROM alpine:latest  
-
-# Create app directory and set permissions  
-WORKDIR /app  
-COPY --from=build /app/main .  
-
-# Command to run the executable  
 CMD ["./main"]  
