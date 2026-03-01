@@ -2,17 +2,15 @@ package config
 
 var ModelReverseMap = map[string]string{}
 var ModelMap = map[string]string{
-	"claude-4-5-sonnet":       "claude45sonnet",
-	"claude-4.5-sonnet-think": "claude45sonnetthinking",
-	"gemini-3-pro":            "gemini30pro",
-	"o3-pro":                  "o3pro",
-	"gpt-5.1":                 "gpt51",
-	"gpt-5-think":             "gpt5_thinking",
-	"claude-4.1-opus-think":   "claude41opusthinking",
+	"claude-4-6-sonnet":       "claude46sonnet",
+	"claude-4.6-sonnet-think": "claude46sonnetthinking",
+	"gemini-3.1-pro":          "gemini31pro_high",
+	"gpt-5.2":                 "gpt52",
+	"gpt-5.2-think":           "gpt52_thinking",
 }
 var MaxModelMap = map[string]string{
-	"o3-pro":                "o3pro",
-	"claude-4.1-opus-think": "claude41opusthinking",
+	"claude-4.6-opus":       "claude46opus",
+	"claude-4.6-opus-think": "claude46opusthinking",
 }
 
 // Get returns the value for the given key from the ModelMap.
@@ -36,6 +34,10 @@ func ModelReverseMapGet(key string, defaultValue string) string {
 var ResponseModels []map[string]string
 
 func init() {
+	//给modelmap添加max模型
+	for k, v := range MaxModelMap {
+		ModelMap[k] = v
+	}
 	// 构建反向映射
 	for k, v := range ModelMap {
 		ModelReverseMap[v] = k

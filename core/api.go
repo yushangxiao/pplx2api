@@ -75,6 +75,7 @@ type Block struct {
 	ReasoningPlanBlock *ReasoningPlanBlock `json:"reasoning_plan_block,omitempty"`
 	WebResultBlock     *WebResultBlock     `json:"web_result_block,omitempty"`
 	ImageModeBlock     *ImageModeBlock     `json:"image_mode_block,omitempty"`
+	IntendedUsage      string              `json:"intended_usage"`
 }
 
 type MarkdownBlock struct {
@@ -347,7 +348,7 @@ func (c *Client) HandleResponse(body io.ReadCloser, stream bool, gc *gin.Context
 			}
 		}
 		for _, block := range response.Blocks {
-			if block.MarkdownBlock != nil && len(block.MarkdownBlock.Chunks) > 0 {
+			if block.MarkdownBlock != nil && len(block.MarkdownBlock.Chunks) > 0 && block.IntendedUsage == "ask_text_0_markdown" {
 				res_text := ""
 				if inThinking {
 					res_text += "</think>\n\n"
