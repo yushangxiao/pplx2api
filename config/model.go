@@ -5,8 +5,8 @@ var ModelMap = map[string]string{
 	"claude-4-6-sonnet":       "claude46sonnet",
 	"claude-4.6-sonnet-think": "claude46sonnetthinking",
 	"gemini-3.1-pro":          "gemini31pro_high",
-	"gpt-5.2":                 "gpt52",
-	"gpt-5.2-think":           "gpt52_thinking",
+	"gpt-5.4":                 "gpt54",
+	"gpt-5.4-think":           "gpt54_thinking",
 }
 var MaxModelMap = map[string]string{
 	"claude-4.6-opus":       "claude46opus",
