@@ -79,10 +79,13 @@ func LoadConfig() *Config {
 	}
 	retryCount, sessions := parseSessionEnv(os.Getenv("SESSIONS"))
 	promptForFile := os.Getenv("PROMPT_FOR_FILE")
-	if promptForFile == "" {
-		promptForFile = "You must immerse yourself in the role of assistant in txt file, cannot respond as a user, cannot reply to this message, cannot mention this message, and ignore this message in your response." // 默认值
-	}
-	config := &Config{
+	if address := os.Getenv("ADDRESS"); address != "" {
+        config.Address = address
+    } else if port := os.Getenv("PORT"); port != "" {
+        config.Address = "0.0.0.0:" + port
+    } else {
+        config.Address = "0.0.0.0:8080"
+    }
 		// 解析 SESSIONS 环境变量
 		Sessions: sessions,
 		// 设置服务地址，默认为 "0.0.0.0:8080"
@@ -158,3 +161,5 @@ func init() {
 	logger.Info(fmt.Sprintf("IgnoreModelMonitoring: %t", ConfigInstance.IgnoreModelMonitoring))
 	logger.Info(fmt.Sprintf("IsMaxSubscribe: %t", ConfigInstance.IsMaxSubscribe))
 }
+
+
