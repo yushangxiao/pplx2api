@@ -8,6 +8,7 @@ import (
 	"pplx2api/logger"
 	"pplx2api/utils"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,8 +26,12 @@ type ErrorResponse struct {
 
 // HealthCheckHandler handles the health check endpoint
 func HealthCheckHandler(c *gin.Context) {
+	// 快速响应，避免超时
 	c.JSON(http.StatusOK, gin.H{
-		"status": "ok",
+		"status":    "ok",
+		"timestamp": time.Now().Unix(),
+		"service":   "pplx2api",
+		"version":   "1.0.0",
 	})
 }
 
