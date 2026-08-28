@@ -7,10 +7,24 @@ var ModelMap = map[string]string{
 	"gemini-3.1-pro":          "gemini31pro_high",
 	"gpt-5.4":                 "gpt54",
 	"gpt-5.4-think":           "gpt54_thinking",
+	"gpt-5.6-terra":           "gpt56_terra",
+	"gpt-5.6-terra-think":     "gpt56_terra_thinking",
+	"kimi-k3":                 "kimik3thinking",
+	"claude-5-sonnet":         "claude50sonnet",
+	"claude-5-sonnet-think":   "claude50sonnetthinking",
+	"glm-5.2":                  "glm_5_2",
+	"gemini-3.7-flash":         "gemini37flash",
+	"gemini-3.7-flash-think":   "gemini37flashthinking",
+	"grok-4.6-think":           "grok46medium",
 }
 var MaxModelMap = map[string]string{
 	"claude-4.6-opus":       "claude46opus",
 	"claude-4.6-opus-think": "claude46opusthinking",
+	"gpt-5.6-sol":           "gpt56_sol",
+	"gpt-5.6-sol-think":     "gpt56_sol_thinking",
+	"claude-4.8-opus-think": "claude48opusthinking",
+	"claude-5-opus":         "claude50opus",
+	"claude-5-opus-think":   "claude50opusthinking",
 }
 
 // Get returns the value for the given key from the ModelMap.
